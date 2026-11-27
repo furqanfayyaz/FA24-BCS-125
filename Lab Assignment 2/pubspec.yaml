@@ -1,5 +1,5 @@
 name: quiz1
-description: "Lab Assignment 2 - Flutter Firebase Authentication App"
+description: "Lab Assignment 2 - Supabase Authentication App"
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+  supabase_flutter: ^2.5.0
   path_provider: ^2.1.6
 
 dev_dependencies:

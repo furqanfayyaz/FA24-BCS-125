@@ -21,13 +21,17 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = AuthService.instance.currentUser;
+    final displayName = user?.userMetadata?['display_name'] ?? 'Supabase User';
+    final email = user?.email ?? 'user@supabase.io';
+    final uid = user?.id ?? 'N/A';
+    final createdAt = user?.createdAt != null ? user!.createdAt.substring(0, 10) : 'N/A';
 
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6F9),
       appBar: AppBar(
-        title: const Text('Firebase Auth Dashboard'),
+        title: const Text('Supabase Auth Dashboard'),
         centerTitle: true,
-        backgroundColor: const Color(0xFF1976D2),
+        backgroundColor: const Color(0xFF3ECF8E),
         foregroundColor: Colors.white,
         actions: [
           IconButton(
@@ -45,20 +49,20 @@ class DashboardScreen extends StatelessWidget {
               const SizedBox(height: 20),
               CircleAvatar(
                 radius: 46,
-                backgroundColor: const Color(0xFF1976D2),
+                backgroundColor: const Color(0xFF3ECF8E),
                 child: Text(
-                  user?.displayName.isNotEmpty == true ? user!.displayName[0].toUpperCase() : 'U',
+                  displayName.isNotEmpty == true ? displayName[0].toUpperCase() : 'S',
                   style: const TextStyle(fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 16),
               Text(
-                user?.displayName ?? 'Authenticated User',
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF0D47A1)),
+                displayName,
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1F2937)),
               ),
               const SizedBox(height: 4),
               Text(
-                user?.email ?? 'user@firebase.com',
+                email,
                 style: const TextStyle(fontSize: 14, color: Colors.grey),
               ),
               const SizedBox(height: 32),
@@ -83,19 +87,19 @@ class DashboardScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Logged-In User Credentials (Firebase Auth)',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF0D47A1)),
+                        'Logged-In User Credentials (Supabase Auth)',
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF3ECF8E)),
                       ),
                       const Divider(height: 24),
-                      _buildInfoRow('User ID (UID):', user?.uid ?? 'N/A'),
+                      _buildInfoRow('User ID (UID):', uid),
                       const SizedBox(height: 14),
-                      _buildInfoRow('Email Address:', user?.email ?? 'N/A'),
+                      _buildInfoRow('Email Address:', email),
                       const SizedBox(height: 14),
-                      _buildInfoRow('Display Name:', user?.displayName ?? 'N/A'),
+                      _buildInfoRow('Display Name:', displayName),
                       const SizedBox(height: 14),
-                      _buildInfoRow('Account Created:', user?.createdAt ?? 'N/A'),
+                      _buildInfoRow('Account Created:', createdAt),
                       const SizedBox(height: 14),
-                      _buildInfoRow('Auth Provider:', 'Email & Password'),
+                      _buildInfoRow('Auth Backend:', 'Supabase PostgreSQL'),
                       const SizedBox(height: 14),
                       _buildInfoRow('Session Status:', 'Active & Secure'),
                     ],
