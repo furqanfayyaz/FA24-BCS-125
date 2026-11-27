@@ -9,10 +9,10 @@ import 'screens/dashboard_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Supabase for Lab Assignment 2
+  // Initialize Supabase with user project credentials
   await Supabase.initialize(
-    url: 'https://your-supabase-project.supabase.co',
-    anonKey: 'your-supabase-anon-key',
+    url: 'https://egvxvjfbaibzelnfvqam.supabase.co',
+    publishableKey: 'sb_publishable_2RsXetacmIGTLJfyWw86Ng_80YlJ5Xb',
   );
 
   runApp(const SupabaseAuthApp());
