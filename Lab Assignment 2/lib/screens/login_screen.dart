@@ -29,13 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
-      final success = await AuthService.instance.signIn(
+      final errorMsg = await AuthService.instance.signIn(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
       setState(() => _isLoading = false);
 
-      if (success) {
+      if (errorMsg == null) {
         if (mounted) {
           Navigator.pushReplacement(
             context,
@@ -45,7 +45,11 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Invalid email or password! Please sign up if you don’t have an account.')),
+            SnackBar(
+              content: Text('Login Error: $errorMsg'),
+              backgroundColor: Colors.red.shade700,
+              duration: const Duration(seconds: 4),
+            ),
           );
         }
       }
@@ -88,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 6),
                   const Text(
-                    'Sign in to your Firebase Auth account',
+                    'Sign in to your Supabase Auth account',
                     style: TextStyle(color: Colors.grey, fontSize: 13),
                     textAlign: TextAlign.center,
                   ),

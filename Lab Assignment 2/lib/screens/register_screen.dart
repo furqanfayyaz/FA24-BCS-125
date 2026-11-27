@@ -30,14 +30,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _handleRegister() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
-      final success = await AuthService.instance.signUp(
+      final errorMsg = await AuthService.instance.signUp(
         name: _nameController.text.trim(),
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
       setState(() => _isLoading = false);
 
-      if (success) {
+      if (errorMsg == null) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Account created successfully!')),
@@ -51,7 +51,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Email already exists or registration failed!')),
+            SnackBar(
+              content: Text('Registration Error: $errorMsg'),
+              backgroundColor: Colors.red.shade700,
+              duration: const Duration(seconds: 4),
+            ),
           );
         }
       }
@@ -99,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 6),
                   const Text(
-                    'Sign up with Firebase Auth',
+                    'Sign up with Supabase Auth',
                     style: TextStyle(color: Colors.grey, fontSize: 13),
                     textAlign: TextAlign.center,
                   ),

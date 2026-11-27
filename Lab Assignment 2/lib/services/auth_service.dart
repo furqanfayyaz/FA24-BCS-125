@@ -10,32 +10,41 @@ class AuthService {
 
   User? get currentUser => _supabase.auth.currentUser;
 
-  // Sign Up with Supabase Auth
-  Future<bool> signUp({required String email, required String password, required String name}) async {
+  // Sign Up with Supabase Auth returning error message if any
+  Future<String?> signUp({required String email, required String password, required String name}) async {
     try {
       final response = await _supabase.auth.signUp(
         email: email,
         password: password,
         data: {'display_name': name},
       );
-      return response.user != null;
+      if (response.user != null) {
+        return null; // success
+      }
+      return 'Registration failed. Please try again.';
     } catch (e) {
       if (kDebugMode) print('Supabase Sign Up error: $e');
-      return false;
+      // Clean up exception message formatting
+      final msg = e.toString().replaceAll('AuthException:', '').trim();
+      return msg;
     }
   }
 
-  // Sign In with Supabase Auth
-  Future<bool> signIn({required String email, required String password}) async {
+  // Sign In with Supabase Auth returning error message if any
+  Future<String?> signIn({required String email, required String password}) async {
     try {
       final response = await _supabase.auth.signInWithPassword(
         email: email,
         password: password,
       );
-      return response.user != null;
+      if (response.user != null) {
+        return null; // success
+      }
+      return 'Invalid email or password.';
     } catch (e) {
       if (kDebugMode) print('Supabase Sign In error: $e');
-      return false;
+      final msg = e.toString().replaceAll('AuthException:', '').trim();
+      return msg;
     }
   }
 
